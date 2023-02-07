@@ -1,0 +1,64 @@
+﻿@page "/"
+@using UTS_NETLanjutan_DedeAdamAlamsyah.Models;
+
+<PageTitle>Index</PageTitle>
+
+<div class="row">
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="d-flex justify-content-between">
+                    Koleksi Buku
+                    <button onclick="@Tambah" class="btn btn-primary">Tambah</button>
+                </h3>
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Judul</th>
+                        <th>Genre</th>
+                        <th>Aksi</th>
+                    </tr>
+                    @foreach (var koleksi in listKoleksi)
+                    {
+                        <tr>
+                            <td>@koleksi.JudulBuku.ToString()</td>
+                            <td>@koleksi.GenreBuku</td>
+                            <td>
+                                <button @onclick="() => Hapus(koleksi)" type="button" class="btn btn-danger" style="background-color: #dc3545;">Hapus</button>
+                            </td>
+                        </tr>
+                    }
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code
+{
+    KoleksiBuku koleksi;
+    List<KoleksiBuku> listKoleksi;
+
+    protected override void OnInitialized()
+    {
+        listKoleksi = new List<KoleksiBuku>();
+    }
+
+    public void Tambah()
+    {
+        Random Random = new Random();
+
+        JudulBuku randomBuku = (JudulBuku)Enum
+        .GetValues(typeof(JudulBuku))
+        .GetValue(Random.Next(Enum.GetValues(typeof(JudulBuku)).Length));
+
+        listKoleksi.Add(new KoleksiBuku(randomBuku));
+    }
+
+    public void Hapus(KoleksiBuku koleksi)
+    {
+        listKoleksi.Remove(koleksi);
+    }
+}
